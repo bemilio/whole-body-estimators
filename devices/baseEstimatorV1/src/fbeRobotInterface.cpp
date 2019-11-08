@@ -117,10 +117,13 @@ bool yarp::dev::baseEstimatorV1::loadEstimator()
     }
 
     auto imu_link{m_model.getFrameLink(imu_frame_idx)};
-    if (imu_link != m_model.getDefaultBaseLink() || imu_link != m_model.getLinkIndex(m_head_imu_link))
-    {
-        yError() << "floatingBaseEstimatorV1: " <<  "IMU is assumed to be rigidly attached to the base link or the mentioned head link (if head IMU is used).";
-        return false;
+    if (imu_link != m_model.getDefaultBaseLink())
+    { 
+        if (imu_link != m_model.getLinkIndex(m_head_imu_link))
+        {
+            yError() << "floatingBaseEstimatorV1: " <<  "IMU is assumed to be rigidly attached to the base link or the mentioned head link (if head IMU is used).";
+            return false;
+        }
     }
 
     if (imu_link == m_model.getDefaultBaseLink())
